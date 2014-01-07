@@ -80,7 +80,12 @@ svg.selectAll("path.line")
 updater = function() {
     var data=[]
 
-    for(var i=0.01;i<6;i+=0.01){
+    qmin = +document.getElementById("qmin").value;
+    qmax = +document.getElementById("qmax").value;
+    qstep = +document.getElementById("qstep").value;
+
+
+    for(var i=qmin;i<qmax;i+=qstep){
 	data.push({x:i,
 		   y:hardSphere(i)});
     }
