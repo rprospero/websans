@@ -1,3 +1,8 @@
+window.onload = function () {
+    document.getElementById("xlog").onclick = updater
+    document.getElementById("ylog").onclick = updater
+}
+
 hardSphere = function(q,radius) {
     var drho = 1e-6;
 
@@ -20,8 +25,8 @@ for(var i=0.01;i<5;i+=0.01){
 }
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50};
-var width = 960 - margin.left - margin.right;
-var height = 500 - margin.top - margin.bottom;
+var width = 480 - margin.left - margin.right;
+var height = 400 - margin.top - margin.bottom;
 
 var x = d3.scale.log().range([0,width]);
 var y = d3.scale.log().range([height,0]);
@@ -56,7 +61,7 @@ svg.append("g")
     .attr("y",6)
     .attr("dy",".71em")
     .style("text-anchor","end")
-    .text("Price ($)");
+    .text("I(Q)");
 
 //svg.append("path")
 //   .datum(data)
@@ -73,9 +78,25 @@ svg.selectAll("path.line")
 updater = function() {
     var data=[]
 
-    for(var i=0.01;i<3;i+=0.01){
+    for(var i=0.01;i<6;i+=0.01){
 	data.push({x:i,y:hardSphere(i,30.0)*1e-5});
     }
+
+    if(document.getElementById("xlog").checked){
+	x = d3.scale.log().range([0,width]);
+    } else {
+	x = d3.scale.linear().range([0,width]);
+    }
+
+
+    if(document.getElementById("ylog").checked){
+	y = d3.scale.log().range([height,0]);
+    } else {
+	y = d3.scale.linear().range([height,0]);
+    }
+
+    xAxis.scale(x);
+    yAxis.scale(y);
 
     x.domain(d3.extent(data, function(d) {return d.x;}))
     y.domain(d3.extent(data, function(d) {return d.y;}))
@@ -96,6 +117,4 @@ updater = function() {
     trans.select(".x.axis")
 	.duration(3000)
 	.call(xAxis)
-    
-    console.log("Updated")
 }
