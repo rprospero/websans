@@ -1,3 +1,64 @@
+updater = function() {
+
+    var width = document.getElementById("graphspan").clientWidth - margin.left - margin.right;
+    var height = document.getElementById("graphspan").clientHeight - margin.top - margin.bottom;
+
+    var data=[]
+
+    qmin = +document.getElementById("qmin").value;
+    qmax = +document.getElementById("qmax").value;
+    qstep = +document.getElementById("qstep").value;
+
+
+    for(var i=qmin;i<qmax;i+=qstep){
+	data.push({x:i,
+		   y:hardSphere(i)});
+    }
+
+    if(document.getElementById("xlog").checked){
+	x = d3.scale.log().range([0,width]);
+    } else {
+	x = d3.scale.linear().range([0,width]);
+    }
+
+
+    if(document.getElementById("ylog").checked){
+	y = d3.scale.log().range([height,0]);
+    } else {
+	y = d3.scale.linear().range([height,0]);
+    }
+
+    xAxis.scale(x);
+    yAxis.scale(y);
+
+    x.domain(d3.extent(data, function(d) {return d.x;})).range([0,width]);
+    y.domain(d3.extent(data, function(d) {return d.y;})).range([height,0]);
+
+    var svg = d3.select(".chart")
+	.transition()
+	.duration(3000)
+	.attr("width",width + margin.left + margin.right)
+	.attr("height",height + margin.top + margin.bottom)
+
+
+    var line = d3.svg.line()
+	.x(function(d) {return x(d.x);})
+	.y(function(d) {return y(d.y);})
+	.interpolate("basis");
+    
+    trans = d3.select("body").transition();
+
+    trans.select(".line")
+	.duration(3000)
+	.attr("d",line(data));
+    trans.select(".y.axis")
+	.duration(3000)
+	.call(yAxis)
+    trans.select(".x.axis")
+	.duration(3000)
+	.call(xAxis)
+}
+
 window.onload = function () {
     document.getElementById("xlog").onclick = updater
     document.getElementById("ylog").onclick = updater
@@ -75,64 +136,3 @@ svg.selectAll("path.line")
     .append("svg:path")
     .attr("class","line")
     .attr("d",line);
-
-updater = function() {
-
-    var width = document.getElementById("graphspan").clientWidth - margin.left - margin.right;
-    var height = document.getElementById("graphspan").clientHeight - margin.top - margin.bottom;
-
-    var data=[]
-
-    qmin = +document.getElementById("qmin").value;
-    qmax = +document.getElementById("qmax").value;
-    qstep = +document.getElementById("qstep").value;
-
-
-    for(var i=qmin;i<qmax;i+=qstep){
-	data.push({x:i,
-		   y:hardSphere(i)});
-    }
-
-    if(document.getElementById("xlog").checked){
-	x = d3.scale.log().range([0,width]);
-    } else {
-	x = d3.scale.linear().range([0,width]);
-    }
-
-
-    if(document.getElementById("ylog").checked){
-	y = d3.scale.log().range([height,0]);
-    } else {
-	y = d3.scale.linear().range([height,0]);
-    }
-
-    xAxis.scale(x);
-    yAxis.scale(y);
-
-    x.domain(d3.extent(data, function(d) {return d.x;})).range([0,width]);
-    y.domain(d3.extent(data, function(d) {return d.y;})).range([height,0]);
-
-    var svg = d3.select(".chart")
-	.transition()
-	.duration(3000)
-	.attr("width",width + margin.left + margin.right)
-	.attr("height",height + margin.top + margin.bottom)
-
-
-    var line = d3.svg.line()
-	.x(function(d) {return x(d.x);})
-	.y(function(d) {return y(d.y);})
-	.interpolate("basis");
-    
-    trans = d3.select("body").transition();
-
-    trans.select(".line")
-	.duration(3000)
-	.attr("d",line(data));
-    trans.select(".y.axis")
-	.duration(3000)
-	.call(yAxis)
-    trans.select(".x.axis")
-	.duration(3000)
-	.call(xAxis)
-}
