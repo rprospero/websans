@@ -23,21 +23,18 @@ hardSphere = function(q) {
     return f2;
 };
 
-//var data = [{x:0,y:1},{x:1,y:1},{x:2,y:2},{x:3,y:3},
-//	    {x:4,y:5},{x:5,y:8},{x:6,y:13},{x:7,y:21}];
-
 var data=[]
 
-for(var i=0.01;i<5;i+=0.01){
-    data.push({x:i,y:hardSphere(i,6.0)});
+for(var i=0.01;i<6;i+=0.01){
+    data.push({x:i,y:hardSphere(i)});
 }
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50};
 var width = 480 - margin.left - margin.right;
 var height = 400 - margin.top - margin.bottom;
 
-var x = d3.scale.log().range([0,width]);
-var y = d3.scale.log().range([height,0]);
+var x = d3.scale.linear().range([0,width]);
+var y = d3.scale.linear().range([height,0]);
 
 var xAxis = d3.svg.axis().scale(x).orient("bottom");
 var yAxis = d3.svg.axis().scale(y).orient("left");
@@ -70,11 +67,6 @@ svg.append("g")
     .attr("dy",".71em")
     .style("text-anchor","end")
     .text("I(Q)");
-
-//svg.append("path")
-//   .datum(data)
-//    .attr("class","line")
-//    .attr("d",line);
 
 svg.selectAll("path.line")
     .data([data])
