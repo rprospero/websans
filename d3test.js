@@ -3,14 +3,16 @@ window.onload = function () {
     document.getElementById("ylog").onclick = updater
 }
 
-hardSphere = function(q,radius) {
-    var drho = 1e-6;
+hardSphere = function(q) {
+    var drho = document.getElementById("drho").value;
+    var radius = document.getElementById("radius").value;
+    var background = +document.getElementById("background").value;
 
     var xrad = q * radius;
     var bes = 3*(Math.sin(xrad)-xrad*Math.cos(xrad))/(xrad*xrad*xrad);
     var vol = 4*Math.PI/3*radius*radius*radius;
     var f = bes*drho;
-    var f2 = f*f*vol*1e8;
+    var f2 = f*f*vol*1e8+background;
 
     return f2;
 };
@@ -79,7 +81,8 @@ updater = function() {
     var data=[]
 
     for(var i=0.01;i<6;i+=0.01){
-	data.push({x:i,y:hardSphere(i,30.0)*1e-5});
+	data.push({x:i,
+		   y:hardSphere(i)});
     }
 
     if(document.getElementById("xlog").checked){
