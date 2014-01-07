@@ -6,6 +6,10 @@
     <title>Sans Test</title>
     <script src="d3.v3.min.js" charset="utf-8"></script>
 
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+
     <style>
 
       body {
@@ -29,19 +33,25 @@
 
   </head>
   <body>
-    <svg class="chart"></svg>
-    <a href="#" onclick="updater()">Test</a>
-    <form>
-      <input type="checkbox" id="xlog" name="xlog" value="False">X Axis Log</input>
-      <input type="checkbox" id="ylog" name="ylog" value="False">Y Axis Log</input>
-      <input type="number" id="radius" name="radius" value="6">Radius</input>
-      <input type="number" id="drho" name="drho" value="1e-6">Δρ</input>
-      <input type="number" id="background" name="background" value="0">Background</input>
-      <input type="number" id="qmin" name="qmin" value="0.01">q-min</input>
-      <input type="number" id="qmax" name="qmax" value="6">q-max</input>
-      <input type="number" id="qstep" name="qstep" value="0.01">q-step</input>
-    </form>
-    
+    <div class="container">
+      <div class="row">
+	<div class="col-md-2">
+	  <form>
+	    <input type="checkbox" id="xlog" name="xlog" value="False">X Axis Log</input>
+	    <input type="checkbox" id="ylog" name="ylog" value="False">Y Axis Log</input>
+	    <input type="number" id="radius" name="radius" value="6">Radius</input>
+	    <input type="number" id="drho" name="drho" value="1e-6">Δρ</input>
+	    <input type="number" id="background" name="background" value="0">Background</input>
+	    <input type="number" id="qmin" name="qmin" value="0.01">q-min</input>
+	    <input type="number" id="qmax" name="qmax" value="6">q-max</input>
+	    <input type="number" id="qstep" name="qstep" value="0.01">q-step</input>
+	  </form>
+	</div>
+	<div class="col-md-10">
+	  <svg id="SansGraph" class="chart"></svg>
+	</div>
+      </div>
+    </div>
   </body>
     <script src="d3test.js"></script>
 </html>
