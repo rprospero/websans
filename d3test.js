@@ -7,6 +7,7 @@ window.onload = function () {
     document.getElementById("qmin").onchange = updater
     document.getElementById("qmax").onchange = updater
     document.getElementById("qstep").onchange = updater
+    window.onresize = updater
 }
 
 hardSphere = function(q) {
@@ -76,6 +77,10 @@ svg.selectAll("path.line")
     .attr("d",line);
 
 updater = function() {
+
+    var width = document.getElementById("graphspan").clientWidth - margin.left - margin.right;
+    var height = document.getElementById("graphspan").clientHeight - margin.top - margin.bottom;
+
     var data=[]
 
     qmin = +document.getElementById("qmin").value;
@@ -104,8 +109,15 @@ updater = function() {
     xAxis.scale(x);
     yAxis.scale(y);
 
-    x.domain(d3.extent(data, function(d) {return d.x;}))
-    y.domain(d3.extent(data, function(d) {return d.y;}))
+    x.domain(d3.extent(data, function(d) {return d.x;})).range([0,width]);
+    y.domain(d3.extent(data, function(d) {return d.y;})).range([height,0]);
+
+    var svg = d3.select(".chart")
+	.transition()
+	.duration(3000)
+	.attr("width",width + margin.left + margin.right)
+	.attr("height",height + margin.top + margin.bottom)
+
 
     var line = d3.svg.line()
 	.x(function(d) {return x(d.x);})
