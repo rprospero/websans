@@ -40,6 +40,11 @@ updater = function() {
 	.attr("width",width + margin.left + margin.right)
 	.attr("height",height + margin.top + margin.bottom)
 
+    svg.select(".x.axis")
+	.attr("transform","translate(0,"+height+")")
+	.call(xAxis);
+
+
 
     var line = d3.svg.line()
 	.x(function(d) {return x(d.x);})
