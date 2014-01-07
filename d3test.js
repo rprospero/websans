@@ -1,6 +1,12 @@
 window.onload = function () {
     document.getElementById("xlog").onclick = updater
     document.getElementById("ylog").onclick = updater
+    document.getElementById("radius").onchange = updater
+    document.getElementById("drho").onchange = updater
+    document.getElementById("background").onchange = updater
+    document.getElementById("qmin").onchange = updater
+    document.getElementById("qmax").onchange = updater
+    document.getElementById("qstep").onchange = updater
 }
 
 hardSphere = function(q) {
